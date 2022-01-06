@@ -1,11 +1,14 @@
 package com.example.hellorabbitmq.producer;
 
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.UUID;
 
 
 @Component
@@ -19,7 +22,7 @@ public class TopicMsgProducer {
     public String sendMsg01() {
         String message01 = "the rabbit like eat orange";
         String routingKey01 = "quick.orange.rabbit";
-        rabbitTemplate.convertAndSend("amqp_topic_exchange",routingKey01, message01);
+        rabbitTemplate.convertAndSend("amqp_topic_exchange",routingKey01, message01,new CorrelationData(UUID.randomUUID().toString()));
         return "send msg01 ok";
     }
 

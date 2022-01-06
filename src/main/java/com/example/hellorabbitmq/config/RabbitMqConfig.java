@@ -1,18 +1,29 @@
 package com.example.hellorabbitmq.config;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.ReturnedMessage;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.ContentTypeDelegatingMessageConverter;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.amqp.support.converter.SimpleMessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 
+import javax.annotation.PostConstruct;
+
+@Slf4j
 @Configuration
 public class RabbitMqConfig {
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
+
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory factory){
         RabbitTemplate rabbitTemplate = new RabbitTemplate();
@@ -29,7 +40,6 @@ public class RabbitMqConfig {
         srlcf.setConnectionFactory(factory);
         //当消息有异常内容时（例如类型不匹配），将不再重新放入队列，直接丢弃
         srlcf.setDefaultRequeueRejected(false);
-
         //设置消息转为json
         Jackson2JsonMessageConverter j2jmc = new Jackson2JsonMessageConverter();
         srlcf.setMessageConverter(j2jmc);

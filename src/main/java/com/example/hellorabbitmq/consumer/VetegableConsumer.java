@@ -37,11 +37,11 @@ public class VetegableConsumer {
 //            value = @Queue(value = "amqp.queue.vegetable",durable = "true"),
 //            key = "vegetable.*"
 //    ))
-    @RabbitListener(queues = "amqp.queue.vegetable")
-    public void consumerMsgs(Message message) {
-        String s =  new String(message.getBody());
-        List<VegetableBO> vegetableBOList = JSON.parseArray(s, VegetableBO.class);
-        System.out.println(vegetableBOList);
-        System.out.println("<---vegetable queue--->" + message);
-    }
+//    @RabbitListener(queues = "amqp.queue.vegetable")
+//    public void consumerMsgs(Message message) {
+//        String s =  new String(message.getBody());
+//        List<VegetableBO> vegetableBOList = JSON.parseArray(s, VegetableBO.class);
+//        System.out.println(vegetableBOList);
+//        System.out.println("<---vegetable queue--->" + message);
+//    }
 }

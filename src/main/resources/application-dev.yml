@@ -5,11 +5,15 @@ spring:
     port: 5672 # RabbitMQ 服务的端口
     username: guest # RabbitMQ 服务的账号
     password: guest # RabbitMQ 服务的密码
-    publisher-confirm-type: correlated #发送者开启 confirm 确认机制
-    publisher-returns: true #交换机处理消息路由到队列失败，会将消息返回给发送者
+#    publisher-confirm-type: correlated #发送者开启 confirm 确认机制
+#    publisher-returns: true #交换机处理消息路由到队列失败，会将消息返回给发送者
     listener:
       simple:
-        acknowledge-mode: manual #开启消费者确认机制-手动确认
+        acknowledge-mode: auto #开启消费者确认机制-手动确认
+#        retry:
+#          enabled: true #开启消费重试机制
+#          max-attempts: 3 #最大重试次数，默认为3（包括首次正常消费）
+#          initial-interval: 1000 #重试间隔，单位毫秒，默认为1000
 
 
 

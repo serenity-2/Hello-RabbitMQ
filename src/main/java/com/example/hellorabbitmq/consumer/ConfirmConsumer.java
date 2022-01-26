@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * 消费者的消息确认
+ */
 @Slf4j
 @Component
 public class ConfirmConsumer {
@@ -20,9 +23,11 @@ public class ConfirmConsumer {
     public void receiveMsg(VegetableBO vegetableBO, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long deliveryTag) throws IOException {
         if (vegetableBO.getName().equals("apple")) {
             log.info("i like apple.  deliveryTag:{}",deliveryTag);
+            //肯定应答
             channel.basicAck(deliveryTag,false);
         }else {
             log.info("i don't want anything else");
+            //否定应答
             channel.basicNack(deliveryTag,false,false);
         }
     }
@@ -32,9 +37,11 @@ public class ConfirmConsumer {
         VegetableBO vegetableBO = JSONObject.parseObject(message.getBody(), VegetableBO.class);
         if (vegetableBO.getName().equals("corn")) {
             log.info("i like corn.  deliveryTag:{}",message.getMessageProperties().getDeliveryTag());
+            //肯定应答
             channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
         }else {
             log.info("i don't want anything else");
+            //否定应答
             channel.basicNack(message.getMessageProperties().getDeliveryTag(),false,false);
         }
     }

@@ -3,6 +3,7 @@ package com.example.hellorabbitmq;
 import com.example.hellorabbitmq.consumer.ConfirmConsumer;
 import com.example.hellorabbitmq.message.Demo01Message;
 import com.example.hellorabbitmq.producer.AsynConfirmProducer;
+import com.example.hellorabbitmq.producer.DelayProducer;
 import com.example.hellorabbitmq.producer.SyncConfirmProducer;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -20,6 +21,8 @@ class HelloRabbitmqApplicationTests {
     private AsynConfirmProducer asynConfirmProducer;
     @Autowired
     private SyncConfirmProducer syncConfirmProducer;
+    @Autowired
+    private DelayProducer delayProducer;
 
 
     @Test
@@ -52,5 +55,15 @@ class HelloRabbitmqApplicationTests {
     @Test
     public void send01() {
         asynConfirmProducer.sendMsg01();
+    }
+
+    @Test
+    public void testDeadQueue() {
+        asynConfirmProducer.sendMsg02();
+    }
+
+    @Test
+    public void testDelayMsg() {
+        delayProducer.sendDelayMsg();
     }
 }

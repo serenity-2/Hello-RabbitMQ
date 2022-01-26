@@ -37,8 +37,18 @@ public class AsynConfirmProducer {
      */
     public void sendMsg01() {
         String exchange = "amqp_topic_exchange";
-        String routingKey = "vegetable.corn";
-        VegetableBO corn = new VegetableBO().setName("corn").setColor("yellow").setValue(3.5);
+        String routingKey = "vegetable.tomato";
+        VegetableBO corn = new VegetableBO().setName("tomato").setColor("yellow").setValue(3.5);
         rabbitTemplate.convertAndSend(exchange,routingKey,corn);
+    }
+
+    /**
+     * 异步确认模式测试死信队列
+     */
+    public void sendMsg02() {
+        String exchange = "amqp_direct_car";
+        String routingKey = "car.star";
+        String message = "my first car geely xingyuel";
+        rabbitTemplate.convertAndSend(exchange,routingKey,message);
     }
 }
